@@ -42,35 +42,59 @@ export default {
   data() {
     return {
       data: [],
-      curSelected:0,//当前选项卡的索引
+      curSelected: 0 //当前选项卡的索引
     };
   },
-  methods:{
-    clickLeftBtn(i){
+  
+  methods: {
+    clickLeftBtn(i) {
       this.curSelected = i;
       // console.log(i)
-      this.rightDvi.scrollToElement(document.getElementById(i),500)
+      this.rightDvi.scrollToElement(document.getElementById(i), 500);
     }
   },
   created() {
     getGoods().then(res => {
       this.data = res.data.data;
       // console.log(res.data.data);
-      
     });
   },
   mounted() {
-    new BScroll(document.querySelector(".left-box"),{
-      click:true
+    new BScroll(document.querySelector(".left-box"), {
+      click: true
     });
-    this.rightDvi = new BScroll(document.querySelector(".right-box"));
+    this.rightDvi = new BScroll(document.querySelector(".right-box"), {
+      click: true,
+      probeType: 3
+    });
+    this.rightDvi.on("scroll", ({ y }) => {
+      let Y =  Math.abs(y)
+      if( Y >= this.divHeight.min && Y < this.divHeight.max){
+        this.curSelected= this.divHeight.index
+        return;
+      }
+    });
+  },
+  computed:{
+    getDivMath(){
+      let arr=[]
+      let a = 0
+      for(let i=0;i<this.data.length;i++){
+        //当前高度
+        let divHeight = document.getElementById(i).offsetHeight
+        arr.push({min:a , max: a + divHeight,index:i,})
+        a += divHeight
+        
+      }
+      return arr;
+    }
   }
 };
 </script>
 
 <style lang="less" scoped>
-.selected{
-  background: #FFF;
+.selected {
+  background: #fff;
 }
 .block {
   display: flex;
