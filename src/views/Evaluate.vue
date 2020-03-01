@@ -36,7 +36,7 @@
                     <img :src="v1.avatar" width="25em">
                 </div>
                 <div>
-                    <p>{{v1.username}}formatDate({{v1.rateTime}})</p>
+                    <div class="name-time"><p>{{v1.username}}</p> <p>{{v1.rateTime}}</p></div>
                     <p><Rate :value.sync="v1.score"></Rate>{{v1.deliveryTime}}分钟送达</p><!-- {{v1.score}} -->
                     <p>{{v1.text}}</p>
                     <p>{{v1.rateType}}<span class="v2-box" style="border:1px solid #ccc;padding:5px;" v-for="(v2,i2)  in v1.recommend" :key="i2">{{v2}}</span> </p>
@@ -57,22 +57,40 @@ export default {
       value2: 4
     };
   },
-  methods: {
-         formatDate(now) { 
-          var year=now.getFullYear();  //取得4位数的年份
-          var month=now.getMonth()+1;  //取得日期中的月份，其中0表示1月，11表示12月
-          var date=now.getDate();      //返回日期月份中的天数（1到31）
-          var hour=now.getHours();     //返回日期中的小时数（0到23）
-          var minute=now.getMinutes(); //返回日期中的分钟数（0到59）
-          var second=now.getSeconds(); //返回日期中的秒数（0到59）
-          return year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second; 
-          }
-  },
+  methods: {},
   created() {
     Ratings().then(res => {
       //    console.log(res.data.data)
       this.data = res.data.data;
       console.log(res.data.data);
+      this.data.forEach(function(v) {
+        function newtime(sjx) {
+          var sj = new Date(sjx);
+          var year = sj.getFullYear();
+          var month = sj.getMonth() + 1;
+          if (month < 10) {
+            month = "0" + month;
+          }
+          var day = sj.getDate();
+          if (day < 10) {
+            day = "0" + day;
+          }
+          var hours = sj.getHours();
+          if (hours < 10) {
+            hours = "0" + hours;
+          }
+          var minutes = sj.getMinutes();
+          if (minutes < 10) {
+            minutes = "0" + minutes;
+          }
+          var seconds = sj.getSeconds();
+          if (seconds < 10) {
+            seconds = "0" + seconds;
+          }
+          return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+        }
+        v.rateTime = newtime(v.rateTime);
+      });
     });
   }
 };
@@ -104,8 +122,12 @@ export default {
       margin: 0.5em;
     }
   }
-  .listpad{
+  .listpad {
     padding: 1em;
+  }
+  .name-time {
+    display: flex;
+    justify-content: space-between;
   }
 }
 </style>

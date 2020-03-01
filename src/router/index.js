@@ -12,6 +12,7 @@ export default new VueRouter({
   routes: [
     {
       path: '/', name: 'Main', component: Main, children: [
+        { path: '/', name: 'goods', component: () => import('../views/Goods.vue') },
         { path: '/goods', name: 'goods', component: () => import('../views/Goods.vue') },
         { path: '/business', name: 'business', component: () => import('../views/Business.vue') },
         { path: '/evaluate', name: 'evaluate', component: () => import('../views/Evaluate.vue') },

@@ -1,6 +1,6 @@
 <template>
     <div class="block">
-        <div class="block1">
+        <div class="block1" style="padding: 0.5em 1em">
             <div class="top-box" style="display: flex;justify-content:space-between">
                 <div>
                     <p>{{this.data.name}}</p>
@@ -17,26 +17,34 @@
                 <div><p>平均配送时间</p><p>{{this.data.deliveryTime}}</p></div>
             </div>
         </div>
-        <div class="block2">
-            <div><p>公告与活动</p>
+        <div class="block2" style="padding: 0.5em 1em">
+            <p style=" font-size: 16px">公告与活动</p>
+            <div>
             <p style="color:red">{{this.data.bulletin}}</p>
             </div>
+            <div>
+                <div v-for="item in this.data.supports" :key="item.id">
+                    <p style="padding:0.5em 0em">      
+                        <img v-show=" item.type ==  0" src="../assets/img/discount_1@2x.png" style="width:20px">
+                        <img v-show=" item.type ==  1" src="../assets/img/decrease_1@2x.png" style="width:20px">
+                        <img v-show=" item.type ==  2" src="../assets/img/invoice_1@2x.png" style="width:20px">
+                        {{ item.description }}
+                    </p>
+                </div>
+            </div>
         </div>
-        <div class="block3">
-            <p><img src="../assets/img/decrease_3@2x.png">{{this.data.supports[0].description}}</p>
-            <p><img src="../assets/img/discount_1@2x.png">{{this.data.supports[2].description}}</p>
-            <p><img src="../assets/img/discount_1@2x.png">{{this.data.supports[1].description}}</p>
-        </div>
-        <div class="block4">
+      
+        <div class="block3" >
             <p>商品实景</p>
             <p class="p-box" v-for="(v,i) in this.data.pics" :key="i"><img :src="v" style="width: 10em;"></p>
         </div>
-        <div class="block5">
+        <div class="block4">
             <p>商家信息</p>
             <div v-for="(v,i) in this.data.infos" :key="i">
                 <p>{{v}}</p>
             </div>
         </div>
+
     </div>
 </template>
 
@@ -60,23 +68,22 @@ export default {
 
  <style lang="less" scoped>
 .block {
-    margin-bottom: 50px;
+  margin-bottom: 50px;
   .block3 {
-    margin: 20px 0;
-    border-top: 1px solid #ccc;
-    p {
-      padding: 0.5em;
-      border-bottom: 1px solid #ccc;
+    height: 200px;
+    white-space: nowrap; /*文字不换行*/
+    text-overflow: ellipsis;
+    overflow: hidden;
+    img {
+      float: left;
     }
   }
   .block4 {
-  }
-  .block5 {
-      div{
-          p{
-              padding: 1em 0.5em;
-          }
+    div {
+      p {
+        padding: 1em 0.5em;
       }
+    }
   }
 }
 </style>
