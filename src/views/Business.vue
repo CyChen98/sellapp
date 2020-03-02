@@ -34,11 +34,13 @@
             </div>
         </div>
       
-        <div class="block3" >
-            <p>商品实景</p>
-            <p class="p-box" v-for="(v,i) in this.data.pics" :key="i"><img :src="v" style="width: 10em;"></p>
+        <div class="block3"  style="padding: 0.5em 1em" >
+            <p class="tltie">商品实景</p>
+            <p class="p-box" v-for="(v,i) in this.data.pics" :key="i">
+                <img  :src="v" style="width: 10em;">
+            </p>
         </div>
-        <div class="block4">
+        <div class="block4"  style="padding: 0.5em 1em">
             <p>商家信息</p>
             <div v-for="(v,i) in this.data.infos" :key="i">
                 <p>{{v}}</p>
@@ -69,13 +71,20 @@ export default {
  <style lang="less" scoped>
 .block {
   margin-bottom: 50px;
+  width: 100%;
   .block3 {
-    height: 200px;
-    white-space: nowrap; /*文字不换行*/
-    text-overflow: ellipsis;
-    overflow: hidden;
-    img {
-      float: left;
+    // height: 200px;
+    // width: 200%;
+    .p-box {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-top: 15px;
+      img {
+        width: 160px;
+        height: 100px;
+        margin-bottom: 10px;
+      }
     }
   }
   .block4 {

@@ -17,7 +17,12 @@
             <router-link  to='/business'>商家</router-link>
         </div>
         <router-view></router-view>
-        <div class="shop-div">
+        <transition name="slide-fade">
+          <div v-show="shopcarShow" class="shop-car">
+
+          </div>
+        </transition>
+        <div @click="shopcarShow = !shopcarShow" class="shop-div">
              <div class="left">
                  <img src="../assets/shopcar.png">
                  <p>￥0 | 另需配送费￥{{this.data.deliveryPrice}}元</p>
@@ -36,10 +41,22 @@ export default {
   data() {
     return {
       data: {},
-      curLab: "商品"
+      curLab: "商品",
+      shopcarShow: false
     };
   },
+  computed: {
+    // filter
+  },
   created() {
+    // goodslist().then(res => {
+    //   this.$store.commit("initGoodsList", res.data.data);
+    //   for (let i = 0; i < res.data.data.length; i++) {
+    //     for (let l = 0; l < res.data.data.foods.length; l++) {
+
+    //     }
+    //   }
+    // });
     getSeller().then(res => {
       this.data = res.data.data;
       console.log(this.data.pics[2]);
@@ -128,5 +145,24 @@ export default {
       line-height: 50px;
     }
   }
+}
+.shop-car {
+  position: fixed;
+  height: 200px;
+  width: 100%;
+  bottom: 50px;
+  background-color: pink;
+}
+
+.slide-fade-enter-active {
+  transition: all 0.4s ease;
+}
+.slide-fade-leave-active {
+  transition: all 0.4s cubic-bezier(1, 0.5, 0.7, 1);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active for below version 2.1.8 */ {
+  transform: translateY(200px);
+  opacity: 0;
 }
 </style>
